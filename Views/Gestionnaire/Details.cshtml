@@ -1,0 +1,82 @@
+@model Gestionnaire
+@{
+    ViewData["Title"] = $"Gestionnaire: {Model.NomComplet}";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2>
+                <i class="bi bi-person-badge"></i> @Model.NomComplet
+                <span class="badge bg-secondary float-end">@Model.Secteur</span>
+            </h2>
+        </div>
+        
+        <div class="card-body">
+            <div class="row">
+                <!-- Infos du gestionnaire -->
+                <div class="col-md-4">
+                    <h4>Informations</h4>
+                    <dl>
+                        <dt>Email:</dt>
+                        <dd>@Model.Email</dd>
+                        
+                        <dt>Téléphone:</dt>
+                        <dd>@Model.Telephone</dd>
+                        
+                        <dt>Date d'embauche:</dt>
+                        <dd>@Model.DateEmbauche.ToString("d")</dd>
+                    </dl>
+                </div>
+                
+                <!-- Vols assignés -->
+                <div class="col-md-8">
+                    <h4>Vols assignés (@Model.Vols.Count)</h4>
+                    
+                    <div class="mb-3">
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#assignVolModal">
+                            <i class="bi bi-plus"></i> Assigner un vol
+                        </button>
+                    </div>
+                    
+                    <partial name="_VolsPartial" model="Model.Vols" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Modifier
+            </a>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour assigner des vols -->
+<div class="modal fade" id="assignVolModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assigner un vol</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AssignVol" method="post">
+                    <input type="hidden" name="gestionnaireId" value="@Model.Id" />
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Vols disponibles</label>
+                        <select name="volId" class="form-select" asp-items="ViewBag.VolsDisponibles">
+                            <option value="">-- Sélectionnez --</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Assigner</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

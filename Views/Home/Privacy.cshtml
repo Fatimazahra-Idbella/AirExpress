@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Politique de Confidentialité";
+    Layout = "_Layout"; // Assure la cohérence avec le layout principal
+}
+
+<!-- Hero Section -->
+<div class="privacy-hero bg-secondary text-white py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">@ViewData["Title"]</h1>
+        <p class="lead">Dernière mise à jour : @DateTime.Now.ToString("dd/MM/yyyy")</p>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h2 class="mb-4 text-primary"><i class="bi bi-shield-lock me-2"></i>Protection de vos données</h2>
+                    
+                    <div class="mb-4">
+                        <h3>1. Collecte des informations</h3>
+                        <p>Nous recueillons uniquement les informations nécessaires à la réservation de vols :</p>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item"><i class="bi bi-check-circle text-success me-2"></i>Nom et prénom</li>
+                            <li class="list-group-item"><i class="bi bi-check-circle text-success me-2"></i>Coordonnées de contact</li>
+                            <li class="list-group-item"><i class="bi bi-check-circle text-success me-2"></i>Détails de paiement (chiffrés)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3>2. Utilisation des données</h3>
+                        <p>Vos données servent exclusivement à :</p>
+                        <div class="d-flex align-items-start mb-2">
+                            <span class="badge bg-primary me-3 p-2">1</span>
+                            <span>Traiter vos réservations</span>
+                        </div>
+                        <div class="d-flex align-items-start mb-2">
+                            <span class="badge bg-primary me-3 p-2">2</span>
+                            <span>Vous envoyer des confirmations</span>
+                        </div>
+                        <div class="d-flex align-items-start">
+                            <span class="badge bg-primary me-3 p-2">3</span>
+                            <span>Améliorer nos services</span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mt-4">
+                        <h4 class="alert-heading"><i class="bi bi-info-circle-fill me-2"></i>Vos droits</h4>
+                        <p>Conformément au RGPD, vous pouvez à tout moment :</p>
+                        <ul>
+                            <li>Demander l'accès à vos données</li>
+                            <li>Request rectification</li>
+                            <li>Demander la suppression</li>
+                        </ul>
+                        <hr>
+                        <p class="mb-0">Contactez-nous à <a href="mailto:privacy@aireserve.com" class="alert-link">privacy@aireserve.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .privacy-hero {
+        background: linear-gradient(135deg, #5a6268 0%, #3a4248 100%);
+        margin-bottom: 3rem;
+    }
+    
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    h2, h3 {
+        color: #0066cc;
+    }
+</style>

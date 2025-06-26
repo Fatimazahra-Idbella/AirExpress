@@ -1,0 +1,151 @@
+@model Vol  
+
+@{
+    ViewData["Title"] = "Détails du vol";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">
+                <i class="bi bi-airplane-fly me-2"></i>@Model.Destination
+                <span class="badge bg-light text-dark float-end">Vol #@Model.Id</span>
+            </h2>
+        </div>
+        
+        <div class="card-body">
+            <!-- Section Principale -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="flight-route mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="airport-circle bg-success"></div>
+                            <div class="ms-3">
+                                <h4 class="mb-0">@Model.Depart</h4>
+                                <small class="text-muted">Aéroport de départ</small>
+                            </div>
+                        </div>
+                        
+                        <div class="flight-line"></div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="airport-circle bg-danger"></div>
+                            <div class="ms-3">
+                                <h4 class="mb-0">@Model.Destination</h4>
+                                <small class="text-muted">Aéroport d'arrivée</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><i class="bi bi-calendar-date me-2"></i>Date de départ</span>
+                            <strong>@Model.DateDepart.ToString("dddd dd MMMM yyyy")</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><i class="bi bi-clock me-2"></i>Heure</span>
+                            <strong>@Model.DateDepart.ToString("HH:mm")</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><i class="bi bi-currency-euro me-2"></i>Prix</span>
+                            <strong class="text-success">@Model.Prix.ToString("N0") MAD</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><i class="bi bi-people me-2"></i>Places disponibles</span>
+                            <span class="badge @(Model.PlacesMax > 30 ? "bg-success" : "bg-warning")">
+                                @Model.PlacesMax places
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Carte du trajet (intégration ArcGIS optionnelle) -->
+            <div class="mt-4 border-top pt-3">
+                <h4><i class="bi bi-map me-2"></i>Tracé du vol</h4>
+                <div id="mapView" style="height: 300px; background-color: #f0f0f0;" class="rounded">
+                    <!-- Carte sera chargée via JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-footer bg-light">
+            <div class="d-flex justify-content-between">
+                <a href="/Vol" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Retour à la liste
+                </a>
+                <a href="/Reservation/Create/@Model.Id" class="btn btn-primary">
+                    <i class="bi bi-ticket-perforated me-2"></i>Réserver maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles personnalisés -->
+<style>
+    .airport-circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    
+    .flight-line {
+        border-left: 2px dashed #0d6efd;
+        height: 40px;
+        margin-left: 9px;
+    }
+    
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
+
+<!-- Intégration ArcGIS (optionnelle) -->
+@section Scripts {
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic",
+            "esri/geometry/Polyline"
+        ], (Map, MapView, Graphic, Polyline) => {
+            
+            const map = new Map({ basemap: "streets-navigation-vector" });
+            
+            const view = new MapView({
+                container: "mapView",
+                map: map,
+                center: [-6.36, 31.79], // Centre sur le Maroc
+                zoom: 5
+            });
+
+            // Exemple de tracé de vol (à remplacer par vos données réelles)
+            const flightPath = new Polyline({
+                paths: [
+                    [-7.58, 33.36], // Casablanca
+                    [2.35, 48.85]   // Paris
+                ]
+            });
+
+            const flightGraphic = new Graphic({
+                geometry: flightPath,
+                symbol: {
+                    type: "simple-line",
+                    color: "#d62728",
+                    width: 3,
+                    style: "solid"
+                }
+            });
+
+            view.graphics.add(flightGraphic);
+            view.goTo(flightPath);
+        });
+    </script>
+}

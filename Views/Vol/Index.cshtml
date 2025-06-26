@@ -1,0 +1,26 @@
+@model List<Vol>
+<h1>Liste des vols</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Destination</th>
+            <th>Départ</th>
+            <th>Date</th>
+            <th>Prix</th>
+            <th>Places</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vol in Model)
+        {
+            <tr>
+                <td>@vol.Destination</td>
+                <td>@vol.Depart</td>
+                <td>@vol.DateDepart.ToString("dd/MM/yyyy")</td>
+                <td>@vol.Prix €</td>
+                <td>@vol.PlacesDisponibles</td>
+                <td><a href="@Url.Action("Details", "Vol", new { id = vol.Id })">Détails</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

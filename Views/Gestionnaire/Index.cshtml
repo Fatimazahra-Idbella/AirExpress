@@ -1,0 +1,52 @@
+@model IEnumerable<Gestionnaire>
+@{
+    ViewData["Title"] = "Gestion des Gestionnaires";
+}
+
+<div class="container mt-4">
+    <h1><i class="bi bi-people-fill"></i> Gestionnaires</h1>
+    
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Aucun gestionnaire n'a été trouvé.
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Secteur</th>
+                    <th>Vols assignés</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.NomComplet</td>
+                        <td>@item.Secteur</td>
+                        <td>@(item.Vols?.Count ?? 0)</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">
+                                <i class="bi bi-eye"></i> Détails
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Nouveau gestionnaire
+    </a>
+</div>

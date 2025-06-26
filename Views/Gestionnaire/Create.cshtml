@@ -1,0 +1,189 @@
+@model Gestionnaire
+
+@{
+    ViewData["Title"] = "Ajouter un gestionnaire";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                <!-- Header avec effet de dégradé -->
+                <div class="card-header bg-gradient-primary py-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h2 class="m-0 text-white"><i class="bi bi-person-plus-fill me-2"></i>@ViewData["Title"]</h2>
+                        <a asp-action="Index" class="btn btn-light btn-sm rounded-circle">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-body p-5">
+                    <form asp-action="Create" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        
+                        <!-- Section Informations de base -->
+                        <div class="mb-5">
+                            <h5 class="text-primary mb-4 pb-2 border-bottom">
+                                <i class="bi bi-person-lines-fill me-2"></i>Informations personnelles
+                            </h5>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="NomComplet" class="form-control" placeholder=" " required />
+                                        <label asp-for="NomComplet"></label>
+                                        <div class="invalid-feedback">
+                                            Veuillez saisir le nom complet
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select asp-for="Secteur" class="form-select" asp-items="ViewBag.Secteurs" required>
+                                            <option value="">-- Sélectionner --</option>
+                                            <option value="Europe">Europe</option>
+            <option value="Amérique du Nord">Amérique du Nord</option>
+            <option value="Amérique du Sud">Amérique du Sud</option>
+            <option value="Afrique du Nord">Afrique du Nord</option>
+            <option value="Afrique Subsaharienne">Afrique Subsaharienne</option>
+            <option value="Moyen-Orient">Moyen-Orient</option>
+            <option value="Asie du Sud-Est">Asie du Sud-Est</option>
+            <option value="Asie de l'Est">Asie de l'Est</option>
+            <option value="Océanie">Océanie</option>
+            <option value="Caraïbes">Caraïbes</option>
+            <option value="Vols Nationaux">Vols Nationaux</option>
+            <option value="Vols Charter">Vols Charter</option>
+            <option value="Vols Cargo">Vols Cargo</option>
+                                        </select>
+                                        <label asp-for="Secteur"></label>
+                                        <div class="invalid-feedback">
+                                            Sélectionnez un secteur
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Section Contact -->
+                        <div class="mb-5">
+                            <h5 class="text-primary mb-4 pb-2 border-bottom">
+                                <i class="bi bi-telephone-fill me-2"></i>Coordonnées
+                            </h5>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Email" type="email" class="form-control" placeholder=" " />
+                                        <label asp-for="Email"></label>
+                                        <div class="invalid-feedback">
+                                            Format d'email invalide
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Telephone" class="form-control" placeholder=" " />
+                                        <label asp-for="Telephone"></label>
+                                        <div class="invalid-feedback">
+                                            Format de téléphone invalide
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Boutons d'action -->
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-end mt-5 pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                                <i class="bi bi-arrow-left-circle me-2"></i>Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-save2-fill me-2"></i>Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+        }
+        
+        .form-floating > label {
+            color: #6c757d;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(58, 123, 213, 0.25);
+            border-color: #3a7bd5;
+        }
+        
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+        }
+        
+        .invalid-feedback {
+            display: none;
+            font-size: 0.875em;
+        }
+        
+        .was-validated .form-control:invalid ~ .invalid-feedback,
+        .was-validated .form-select:invalid ~ .invalid-feedback {
+            display: block;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Validation côté client améliorée
+        (() => {
+            'use strict'
+            
+            const forms = document.querySelectorAll('.needs-validation')
+            
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+        
+        // Animation des labels flottants
+        document.querySelectorAll('.form-floating input, .form-floating select').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.nextElementSibling.style.color = '#3a7bd5';
+                el.nextElementSibling.style.transform = 'scale(0.85) translateY(-0.5rem) translateX(0.15rem)';
+            });
+            
+            el.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.nextElementSibling.style.color = '#6c757d';
+                    this.nextElementSibling.style.transform = '';
+                }
+            });
+        });
+    </script>
+}
